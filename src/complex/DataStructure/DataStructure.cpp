@@ -293,6 +293,16 @@ DataObject& DataStructure::getDataRef(const DataPath& path)
   return *object;
 }
 
+DataObject& DataStructure::getDataRef(DataObject::IdType id)
+{
+  DataObject* object = getData(id);
+  if(object == nullptr)
+  {
+    throw std::out_of_range(fmt::format("DataStructure::getDataRef(): Id '{}' does not exist", id));
+  }
+  return *object;
+}
+
 DataObject* DataStructure::getData(const LinkedPath& path)
 {
   return getData(path.getId());
@@ -351,6 +361,16 @@ const DataObject& DataStructure::getDataRef(const DataPath& path) const
   if(object == nullptr)
   {
     throw std::out_of_range(fmt::format("DataStructure::getDataRef(): Input Path '{}' does not exist", path.toString()));
+  }
+  return *object;
+}
+
+const DataObject& DataStructure::getDataRef(DataObject::IdType id) const
+{
+  const DataObject* object = getData(id);
+  if(object == nullptr)
+  {
+    throw std::out_of_range(fmt::format("DataStructure::getDataRef(): Id '{}' does not exist", id));
   }
   return *object;
 }
