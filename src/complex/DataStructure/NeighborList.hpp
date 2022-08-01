@@ -8,6 +8,8 @@ namespace H5
 {
 class DatasetReader;
 class GroupReader;
+
+template <typename T>
 class NeighborListFactory;
 
 namespace Constants
@@ -24,6 +26,7 @@ constexpr StringLiteral NumNeighborsTag = "_NumNeighbors";
 template <typename T>
 class NeighborList : public INeighborList
 {
+  template <typename T>
   friend class H5::NeighborListFactory;
 
 public:
@@ -185,6 +188,68 @@ public:
    * @return SharedVectorType
    */
   SharedVectorType getList(int32 grainId) const;
+
+  /**
+   * @brief Static function to get the typename
+   * @return
+   */
+  static std::string GetTypeName()
+  {
+    if constexpr(std::is_same_v<T, int8>)
+    {
+      return "NeighborList<int8>";
+    }
+    else if constexpr(std::is_same_v<T, uint8>)
+    {
+      return "NeighborList<uint8>";
+    }
+    else if constexpr(std::is_same_v<T, int16>)
+    {
+      return "NeighborList<int16>";
+    }
+    else if constexpr(std::is_same_v<T, uint16>)
+    {
+      return "NeighborList<uint16>";
+    }
+    else if constexpr(std::is_same_v<T, int32>)
+    {
+      return "NeighborList<int32>";
+    }
+    else if constexpr(std::is_same_v<T, uint32>)
+    {
+      return "NeighborList<uint32>";
+    }
+    else if constexpr(std::is_same_v<T, int64>)
+    {
+      return "NeighborList<int64>";
+    }
+    else if constexpr(std::is_same_v<T, uint64>)
+    {
+      return "NeighborList<uint64>";
+    }
+    else if constexpr(std::is_same_v<T, float32>)
+    {
+      return "NeighborList<float32>";
+    }
+    else if constexpr(std::is_same_v<T, float64>)
+    {
+      return "NeighborList<float64>";
+    }
+    else if constexpr(std::is_same_v<T, bool>)
+    {
+      return "NeighborList<bool>";
+    }
+    return "NeighborList: UNKNOWN TYPE";
+  }
+
+  /**
+   * @brief getTypeName
+   * @return
+   */
+  std::string getTypeName() const override
+  {
+    return GetTypeName();
+  }
 
   /**
    * @brief copyOfList
