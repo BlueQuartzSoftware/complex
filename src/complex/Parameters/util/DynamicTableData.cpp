@@ -6,22 +6,12 @@
 using namespace complex;
 
 DynamicTableData::DynamicTableData()
-: m_DynamicRows(false)
-, m_DynamicCols(false)
-, m_MinRows(0)
-, m_MinCols(0)
-, m_DefaultRowCount(0)
-, m_DefaultColCount(0)
+
 {
 }
 
 DynamicTableData::DynamicTableData(int32 nRows, int32 nCols)
-: m_DynamicRows(false)
-, m_DynamicCols(false)
-, m_MinRows(0)
-, m_MinCols(0)
-, m_DefaultRowCount(0)
-, m_DefaultColCount(0)
+
 {
   TableDataType data(nRows, std::vector<double>(nCols, 0));
   m_TableData = data;
@@ -43,12 +33,7 @@ DynamicTableData::DynamicTableData(int32 nRows, int32 nCols)
 }
 
 DynamicTableData::DynamicTableData(int32 nRows, int32 nCols, const HeadersListType& rHeaders, const HeadersListType& cHeaders)
-: m_DynamicRows(false)
-, m_DynamicCols(false)
-, m_MinRows(0)
-, m_MinCols(0)
-, m_DefaultRowCount(0)
-, m_DefaultColCount(0)
+
 {
   TableDataType data(nRows, std::vector<double>(nCols, 0));
   m_TableData = data;
@@ -61,12 +46,7 @@ DynamicTableData::DynamicTableData(int32 nRows, int32 nCols, const HeadersListTy
 }
 
 DynamicTableData::DynamicTableData(const TableDataType& data, const HeadersListType& rHeaders, const HeadersListType& cHeaders)
-: m_DynamicRows(false)
-, m_DynamicCols(false)
-, m_MinRows(0)
-, m_MinCols(0)
-, m_DefaultRowCount(0)
-, m_DefaultColCount(0)
+
 {
   m_TableData = data;
   m_RowHeaders = rHeaders;
@@ -143,11 +123,11 @@ std::string DynamicTableData::serializeData(char delimiter) const
 {
   std::stringstream ss;
 
-  for(int row = 0; row < m_TableData.size(); row++)
+  for(const auto& row : m_TableData)
   {
-    for(int col = 0; col < m_TableData[row].size(); col++)
+    for(int col = 0; col < row.size(); col++)
     {
-      ss << m_TableData[row][col] << delimiter;
+      ss << row[col] << delimiter;
     }
   }
   std::string str = ss.str();
@@ -192,9 +172,9 @@ std::string DynamicTableData::serializeRowHeaders(char delimiter) const
 {
   std::stringstream ss;
 
-  for(int i = 0; i < m_RowHeaders.size(); i++)
+  for(const auto& m_RowHeader : m_RowHeaders)
   {
-    ss << m_RowHeaders[i];
+    ss << m_RowHeader;
     ss << delimiter;
   }
   std::string str = ss.str();
@@ -207,9 +187,9 @@ std::string DynamicTableData::serializeColumnHeaders(char delimiter) const
 {
   std::stringstream ss;
 
-  for(int i = 0; i < m_ColHeaders.size(); i++)
+  for(const auto& m_ColHeader : m_ColHeaders)
   {
-    ss << m_ColHeaders[i];
+    ss << m_ColHeader;
     ss << delimiter;
   }
   std::string str = ss.str();
