@@ -351,14 +351,14 @@ public:
     }
 
     // Write shape attributes to the dataset
-    auto tupleAttribute = datasetWriter.createAttribute(IDataStore::k_TupleShape);
+    auto tupleAttribute = datasetWriter.createAttribute(complex::H5::k_TupleShapeTag);
     err = tupleAttribute.writeVector({m_TupleShape.size()}, m_TupleShape);
     if(err < 0)
     {
       return err;
     }
 
-    auto componentAttribute = datasetWriter.createAttribute(IDataStore::k_ComponentShape);
+    auto componentAttribute = datasetWriter.createAttribute(complex::H5::k_ComponentShapeTag);
     err = componentAttribute.writeVector({m_ComponentShape.size()}, m_ComponentShape);
 
     return err;
@@ -371,11 +371,30 @@ public:
 
     // Create DataStore
     auto dataStore = std::make_unique<DataStore<T>>(tupleShape, componentShape, static_cast<T>(0));
-
     if(!datasetReader.readIntoSpan(dataStore->createSpan()))
     {
-      throw std::runtime_error(fmt::format("Error reading data from DataStore from HDF5 at {}/{}", H5::Support::GetObjectPath(datasetReader.getParentId()), datasetReader.getName()));
+      throw std::runtime_error(fmt::format("Error reading data array from DataStore from HDF5 at {}/{}", H5::Support::GetObjectPath(datasetReader.getParentId()), datasetReader.getName()));
     }
+
+    return dataStore;
+  }
+
+  static std::unique_ptr<DataStore> ReadHdf5NeighborList(const H5::DatasetReader& datasetReader)
+  {
+    auto tupleShape = IDataStore::ReadTupleShape(datasetReader);
+    auto componentShape = IDataStore::ReadComponentShape(datasetReader);
+
+    // Create DataStore
+    auto dataStore = std::make_unique<DataStore<T>>(tupleShape, componentShape, static_cast<T>(0));
+
+    const auto size = datasetReader.getNumElements();
+    auto dataPtr = std::make_unique<value_type[]>(size);
+    nonstd::span<value_type> span(dataPtr.get(), size);
+    if(!datasetReader.readIntoSpan(span))
+    {
+      throw std::runtime_error(fmt::format("Error reading neighbor list from DataStore from HDF5 at {}/{}", H5::Support::GetObjectPath(datasetReader.getParentId()), datasetReader.getName()));
+    }
+    dataStore->m_Data = std::move(dataPtr);
 
     return dataStore;
   }
