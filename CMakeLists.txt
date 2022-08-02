@@ -195,10 +195,6 @@ set(COMPLEX_HDRS
 
   ${COMPLEX_SOURCE_DIR}/DataStructure/Observers/AbstractDataStructureObserver.hpp
 
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry.hpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry2D.hpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry3D.hpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometryGrid.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/EdgeGeom.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/HexahedralGeom.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/ImageGeom.hpp
@@ -208,6 +204,13 @@ set(COMPLEX_HDRS
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/TriangleGeom.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/VertexGeom.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/LinkedGeometryData.hpp
+
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/IGeometry.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/IGridGeometry.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry0D.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry1D.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry2D.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry3D.hpp
 
   ${COMPLEX_SOURCE_DIR}/DataStructure/DynamicListArray.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/EmptyDataStore.hpp
@@ -221,6 +224,7 @@ set(COMPLEX_HDRS
   ${COMPLEX_SOURCE_DIR}/DataStructure/Montage/GridTileIndex.hpp
 
   ${COMPLEX_SOURCE_DIR}/DataStructure/AbstractDataStore.hpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/AttributeMatrix.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/BaseGroup.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/DataArray.hpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/DataGroup.hpp
@@ -332,7 +336,6 @@ set(COMPLEX_HDRS
   ${COMPLEX_SOURCE_DIR}/Utilities/Parsing/HDF5/H5Support.hpp
   ${COMPLEX_SOURCE_DIR}/Utilities/Parsing/HDF5/H5Constants.hpp
 
-
   ${COMPLEX_SOURCE_DIR}/Utilities/Parsing/Text/CsvParser.hpp
 )
 
@@ -371,10 +374,12 @@ set(COMPLEX_SRCS
 
   ${COMPLEX_SOURCE_DIR}/DataStructure/Observers/AbstractDataStructureObserver.cpp
 
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry.cpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry2D.cpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometry3D.cpp
-  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/AbstractGeometryGrid.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/IGeometry.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/IGridGeometry.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry0D.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry1D.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry2D.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/INodeGeometry3D.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/EdgeGeom.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/HexahedralGeom.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/Geometry/ImageGeom.cpp
@@ -391,6 +396,7 @@ set(COMPLEX_SRCS
   ${COMPLEX_SOURCE_DIR}/DataStructure/Montage/GridTileIndex.cpp
 
   ${COMPLEX_SOURCE_DIR}/DataStructure/AbstractDataStore.cpp
+  ${COMPLEX_SOURCE_DIR}/DataStructure/AttributeMatrix.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/BaseGroup.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/DataGroup.cpp
   ${COMPLEX_SOURCE_DIR}/DataStructure/DataMap.cpp
@@ -484,7 +490,7 @@ set(COMPLEX_SRCS
   ${COMPLEX_SOURCE_DIR}/Utilities/Parsing/HDF5/H5Support.cpp
 
   ${COMPLEX_SOURCE_DIR}/Utilities/Parsing/Text/CsvParser.cpp
-  )
+)
 
 
 # Add Core FilterParameters

@@ -8,11 +8,12 @@ using namespace complex;
 
 namespace complex
 {
-CreateImageGeometryAction::CreateImageGeometryAction(const DataPath& path, const DimensionType& dims, const OriginType& origin, const SpacingType& spacing)
+CreateImageGeometryAction::CreateImageGeometryAction(const DataPath& path, const DimensionType& dims, const OriginType& origin, const SpacingType& spacing, const std::string& cellAttributeMatrixName)
 : IDataCreationAction(path)
 , m_Dims(dims)
 , m_Origin(origin)
 , m_Spacing(spacing)
+, m_CellDataName(cellAttributeMatrixName)
 {
 }
 
@@ -55,6 +56,16 @@ Result<> CreateImageGeometryAction::apply(DataStructure& dataStructure, Mode mod
   imageGeom->setDimensions(m_Dims);
   imageGeom->setOrigin(m_Origin);
   imageGeom->setSpacing(m_Spacing);
+
+  auto* attributeMatrix = AttributeMatrix::Create(dataStructure, m_CellDataName, imageGeom->getId());
+  if(attributeMatrix == nullptr)
+  {
+    return MakeErrorResult(-226, fmt::format("CreateGeometry2DAction: Failed to create ImageGeometry: '{}'", getCreatedPath().createChildPath(m_CellDataName).toString()));
+  }
+  DimensionType reversedDims(m_Dims.rbegin(), m_Dims.rend());
+  attributeMatrix->setShape(std::move(reversedDims));
+
+  imageGeom->setCellData(*attributeMatrix);
 
   return {};
 }
